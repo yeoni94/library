@@ -1,0 +1,109 @@
+@charset "utf-8";
+
+#search_field{clear:both;float:left;width:800px;}
+#search_field_loc{padding-top:10px;padding-bottom:10px;}
+#search_field h2{display:inline;padding-top:40px;background: url("../images/bg_h2.gif") no-repeat;
+background-position: left center;padding-left:40px;padding-top:2px;letter-spacing:-1px;}
+#search_field fieldset{border:1px solid #E1E1E1;padding:7px;}
+#search_field_loc{padding-top:10px;padding-bottom:10px;}
+.error-template {padding: 40px 15px;text-align: center;}
+.error-actions {margin-top:15px;margin-bottom:15px;}
+.error-actions .btn { margin-right:10px; }
+#cur_loc_align{float:right; }
+#cur_loc ul{list-style-type:none;padding-top:13px;padding-right:10px; letter-spacing: -1px;}
+#cur_loc li{display:inline;font-size:100%;color:#727272;padding-right:3px;padding-left:3px;}
+#cur_loc_center{padding-left:50%; }
+
+#paging_div .paging_align{
+	clear: both;
+    margin: 0 auto;
+    padding-top: 16px;
+    text-align: center;
+    width: 650px;}
+.paging_align .first{border:medium none;padding:0px;}
+.paging_align li{display:inline;border-right:1px solid #dddddd;padding-left:3px;padding-right:10px; vertical-align:middle;}
+.paging_align li a{color:#666666;}
+.paging_align li a:hover{color:#0958A5;font-weight:bold;}
+.paging_align a:active{color:#0958A5;} 
+.paging_align a:visited{color:#0958A5;}
+
+    
+.PageTitle  {  
+    color: #000000; 
+    text-align:left;
+    font-family:"돋움";
+    font-weight:bold;
+    padding-left:45px;
+    background-image:url('/images/egovframework/com/cmm/uss/umt/page_title.gif')
+    }
+
+.PageNumber {  
+    text-align:center;
+    font-family:"돋움";
+    }
+    
+    
+/*페이징관련 버튼*/
+ 
+ .group_pagenav
+{ vertical-align:middle;
+   focus-rect:visible;
+   background-color:transparent!important;
+   border-style:none; } 
+
+ .page_prevend
+ { width:13px; height:13px; top:3px;
+    focus-rect:visible;
+    background-color:transparent;
+    background-image:url(/images/egovframework/com/cmm/uss/umt/icon/icon_prevend.gif);
+    border-style:none; }  
+
+ .page_prev  
+ { width:13px; height:13px;  top:3px;
+    focus-rect:visible;
+    background-color:transparent; 
+    background-image:url(/images/egovframework/com/cmm/uss/umt/icon/icon_prev.gif);
+    border-style:none; }
+
+ .page_nextend
+ { width:13px; height:13px; top:3px;
+    focus-rect:visible;
+    background-color:transparent;
+    background-image:url(/images/egovframework/com/cmm/uss/umt/icon/icon_nextend.gif);
+    border-style:none; }  
+
+ .page_next
+ { width:13px; height:13px; top:3px;
+    focus-rect:visible;
+    background-color:transparent;
+    background-image:url(/images/egovframework/com/cmm/uss/umt/icon/icon_next.gif);
+    border-style:none; }  
+
+  .page_no
+ { width:30px; height:13px!important; top:3px;
+    focus-rect:visible;
+    text-align:center;
+    background-color:transparent;
+    border-style:none; }    
+  
+ .page_sep
+ { width:13px; height:13px!important; top:3px;
+    focus-rect:visible;
+    text-align:center;
+    background-color:transparent;
+    border-style:none; }   
+
+  .group_pagenav>caption
+  {vertical-align:top!important;
+     focus-rect:visible;
+    background-color:transparent!important;
+    border-style:none!important;
+    padding-left:2px!important;
+    padding-top:1px!important;
+    text-align:left!important;}
+
+table.dataTable td.dataTables_empty {
+  text-align: center;
+  align: center;
+}
+    

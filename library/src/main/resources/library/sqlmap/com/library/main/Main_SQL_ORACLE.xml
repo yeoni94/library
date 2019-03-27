@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.main.dao.MainMapper">
+   <resultMap id="bookInfoListForMain" type="com.library.bookinfo.vo.BookInfoVO">
+      <result property="bseq" column="BSEQ"/>
+      <result property="bnum" column="BNUM"/>
+      <result property="image" column="IMAGE"/>
+   </resultMap>
+   
+   <select id="inDayCount" parameterType="hashmap" resultType="java.lang.Integer">
+     <![CDATA[
+       SELECT COUNT(*) FROM LIBRARY_BOOK_HISTORY WHERE TO_CHAR(IN_DAY, 'YYYYMMDD')=TO_CHAR(SYSDATE, 'YYYYMMDD')
+     ]]>
+   </select>
+   
+   <select id="outDayCount" parameterType="hashmap" resultType="java.lang.Integer">
+     <![CDATA[
+       SELECT COUNT(*) FROM LIBRARY_BOOK_HISTORY WHERE TO_CHAR(OUT_DAY, 'YYYYMMDD')=TO_CHAR(SYSDATE, 'YYYYMMDD')
+     ]]>
+   </select> 
+   
+   <select id="newTop6" parameterType="hashmap" resultMap="bookInfoListForMain">
+     <![CDATA[
+       SELECT BSEQ, BNUM, IMAGE FROM (SELECT BSEQ, BNUM, IMAGE FROM LIBRARY_BOOK_INFO ORDER BY CREATE_DATE DESC) WHERE ROWNUM <= 6
+     ]]>
+   </select>
+   
+   <select id="borrowTop6" parameterType="hashmap" resultMap="bookInfoListForMain">
+     <![CDATA[
+       SELECT BNUM, (SELECT BSEQ FROM LIBRARY_BOOK_INFO B WHERE B.BNUM = A.BNUM) AS BSEQ, (SELECT IMAGE FROM LIBRARY_BOOK_INFO B WHERE B.BNUM = A.BNUM) AS IMAGE  FROM (SELECT BNUM FROM LIBRARY_BOOK_HISTORY GROUP BY BNUM ORDER BY COUNT(*) DESC) A WHERE ROWNUM <= 6
+     ]]>
+   </select>
+   
+   <select id="newDay7Count" parameterType="hashmap" resultType="java.lang.Integer">
+     <![CDATA[
+       SELECT COUNT(*) FROM LIBRARY_BOOK_INFO WHERE CREATE_DATE BETWEEN TRUNC(SYSDATE-7) AND TRUNC(SYSDATE)
+     ]]>
+   </select>
+   
+   <select id="borrowTotalCount" parameterType="hashmap" resultType="java.lang.Integer">
+     <![CDATA[
+       SELECT COUNT(*) FROM (SELECT HSEQ FROM LIBRARY_BOOK_HISTORY)
+     ]]>
+   </select>
+</mapper>

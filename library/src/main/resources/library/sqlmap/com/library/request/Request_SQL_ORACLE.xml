@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.bookrequest.dao.BookRequestMapper">
+    <resultMap id="bookRequestList" type="com.library.bookrequest.vo.BookRequestVO">
+       <result property="rseq" column="RSEQ"/> 
+       <result property="id" column="ID"/> 
+       <result property="title" column="TITLE"/>
+       <result property="writer" column="WRITER"/> 
+       <result property="publisher" column="PUBLISHER"/> 
+       <result property="publish_date" column="PUBLISH_DATE"/> 
+       <result property="isbn" column="ISBN"/> 
+       <result property="issn" column="ISSN"/>  
+       <result property="request_reason" column="REQUEST_REASON"/> 
+       <result property="state" column="STATE"/> 
+       <result property="create_user" column="CREATE_USER"/> 
+       <result property="create_date" column="CREATE_DATE"/>
+       <result property="update_user" column="UPDATE_USER"/>
+       <result property="update_date" column="UPDATE_DATE"/>                    
+    </resultMap>
+    
+    <insert id="bookRequestInsert" parameterType="com.library.bookrequest.vo.BookRequestVO">
+      <![CDATA[
+          INSERT INTO LIBRARY_BOOK_REQUEST(
+               RSEQ,
+               ID,  
+               TITLE, 
+               WRITER, 
+               PUBLISHER, 
+               PUBLISH_DATE, 
+               ISBN, 
+               ISSN, 
+               REQUEST_REASON,
+               STATE,
+               CREATE_USER, 
+               CREATE_DATE, 
+               UPDATE_USER, 
+               UPDATE_DATE
+          )VALUES(
+               LIBRARY_BOOK_REQUEST_SEQ.NEXTVAL
+       ]]>    
+        <![CDATA[   
+               ,#{id}          
+               ,#{title}
+               ,#{writer}
+               ,#{publisher}
+               ,#{publish_date}
+               ,#{isbn}
+               ,#{issn}
+               ,#{request_reason}
+               ,'N'
+               ,#{create_user}
+               ,SYSDATE
+               ,#{update_user}
+               ,SYSDATE
+          )          
+      ]]>
+    </insert>
+    
+    <select id="bookRequestList" parameterType="java.lang.String" resultMap="bookRequestList">
+         SELECT * FROM LIBRARY_BOOK_REQUEST WHERE ID=#{id}
+    </select>
+    
+    <select id="bookRequestListAdmin" resultMap="bookRequestList">
+         SELECT * FROM LIBRARY_BOOK_REQUEST
+    </select>    
+
+    <update id="bookRequestApproveOneUpdate" parameterType="com.library.bookrequest.vo.BookRequestVO">
+      <![CDATA[
+          UPDATE LIBRARY_BOOK_REQUEST
+          SET STATE = #{state}
+          WHERE RSEQ = #{rseq}
+      ]]>       
+    </update>
+    
+    <update id="bookRequestApproveListUpdate" parameterType="com.library.bookrequest.vo.BookRequestVO">
+      <![CDATA[
+          UPDATE LIBRARY_BOOK_REQUEST
+          SET STATE = #{state}
+          WHERE RSEQ = #{rseq}
+      ]]>       
+    </update>
+</mapper>

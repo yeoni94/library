@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.user.dao.UserMapper">
+    <resultMap id="userList" type="com.library.user.vo.UserVO">
+       <result property="useq" column="USEQ"/>
+       <result property="grade" column="GRADE"/>
+       <result property="id" column="ID"/>
+       <result property="pw" column="PW"/>
+       <result property="name" column="NAME"/>
+       <result property="birth" column="BIRTH"/>
+       <result property="phone" column="PHONE"/>
+       <result property="email" column="EMAIL"/>
+       <result property="penalty" column="PENALTY"/>
+       <result property="createUser" column="CREATE_USER"/>
+       <result property="createDate" column="CREATE_DATE"/>
+       <result property="updateUser" column="UPDATE_USER"/>
+       <result property="updateDate" column="UPDATE_DATE"/>
+    </resultMap>
+    
+    <select id="loginCheck" resultType="java.lang.Integer" parameterType="com.library.user.vo.UserVO">
+       <![CDATA[
+          SELECT COUNT(*) FROM LIBRARY_USER WHERE ID=#{id} AND PW=#{pw}
+        ]]>
+    </select>
+    
+    <select id="getUser" resultMap="userList" parameterType="com.library.user.vo.UserVO">
+       <![CDATA[
+          SELECT * FROM LIBRARY_USER WHERE ID=#{id} AND PW=#{pw}
+       ]]>
+    </select>
+    
+    <select id="userIdPwCheck" resultType="java.lang.String" parameterType="com.library.user.vo.UserVO">
+       <![CDATA[
+       
+          SELECT ID FROM LIBRARY_USER WHERE NAME=#{name} AND EMAIL=#{email}
+        ]]>
+    </select>
+    
+    <update id="userPwUpdate" parameterType="com.library.user.vo.UserVO">
+       <![CDATA[
+          UPDATE LIBRARY_USER
+          SET PW=#{pw}
+          WHERE NAME=#{name} AND EMAIL=#{email}
+        ]]>
+    </update> 
+    
+    <select id="userIdExistCnt" resultType="java.lang.Integer" parameterType="java.lang.String">
+       <![CDATA[
+         SELECT COUNT(*) FROM LIBRARY_USER WHERE ID = #{id}
+       ]]>
+    </select>    
+    
+    <insert id="userInsert" parameterType="com.library.user.vo.UserVO">
+       <![CDATA[
+         INSERT INTO LIBRARY_USER (USEQ, GRADE, ID, PW, NAME, BIRTH, PHONE, EMAIL, PENALTY, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE)
+                           VALUES (LIBRARY_USER_SEQ.NEXTVAL, 'B', #{id}, #{pw}, #{name}, #{birth}, #{phone}, #{email}, 0, #{id}, SYSDATE, #{id}, SYSDATE)
+       ]]>
+    </insert>
+    
+    <select id="selectUserB" resultMap="userList">
+        SELECT * FROM LIBRARY_USER WHERE GRADE = 'B'
+    </select>
+    
+    <update id="updateUserA" parameterType="java.lang.Integer">
+        UPDATE LIBRARY_USER
+        SET GRADE = 'A'
+        WHERE USEQ = #{useq}
+    </update>
+    
+    <update id="updatePenalty" parameterType="hashMap">
+        UPDATE LIBRARY_USER
+        SET PENALTY = #{penalty}
+        WHERE USEQ = #{useq}
+    </update>
+    
+    <select id="selectUserPenalty" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT PENALTY FROM LIBRARY_USER WHERE ID = #{id}
+    </select>
+    
+    <select id="selectUserDetail" parameterType="java.lang.String" resultMap="userList">
+        SELECT
+           USEQ,
+           NAME,
+           ID,
+           PHONE,
+           EMAIL
+        FROM LIBRARY_USER
+        WHERE ID = #{id}
+    </select>
+    
+    <update id="updateUserDetail" parameterType="com.library.user.vo.UserVO">
+        UPDATE LIBRARY_USER
+        SET 
+        <if test='pw != null and !pw.equals("")'>
+           <![CDATA[ PW = #{pw}, ]]>
+        </if>
+        EMAIL = #{email},
+        PHONE = #{phone}
+        WHERE USEQ = #{useq}
+    </update>
+    
+    <delete id="deleteUser" parameterType="com.library.user.vo.UserVO">
+        DELETE FROM LIBRARY_USER WHERE USEQ = #{useq}
+    </delete>
+</mapper>

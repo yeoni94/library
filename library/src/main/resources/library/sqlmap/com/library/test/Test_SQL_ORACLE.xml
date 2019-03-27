@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Oct 16 13:22:58 KST 2015-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.test.dao.TestMapper">
+   <select id="getDual" parameterType="hashmap" resultType="java.lang.String">
+     <![CDATA[
+      SELECT SYSDATE AS NOW FROM DUAL
+     ]]>
+   </select>
+</mapper>

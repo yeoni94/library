@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.book.dao.BookMapper">
+    <resultMap id="bookList" type="com.library.bookinfo.vo.BookInfoVO">
+       <result property="bseq" column="BSEQ"/> 
+       <result property="bnum" column="BNUM"/> 
+       <result property="title" column="TITLE"/>
+       <result property="writer" column="WRITER"/> 
+       <result property="publisher" column="PUBLISHER"/> 
+       <result property="publish_date" column="PUBLISH_DATE"/> 
+       <result property="isbn" column="ISBN"/> 
+       <result property="issn" column="ISSN"/> 
+       <result property="type" column="TYPE"/> 
+       <result property="call_number" column="CALL_NUMBER"/> 
+       <result property="location" column="LOCATION"/>
+       <result property="state" column="STATE"/> 
+       <result property="image" column="IMAGE"/>
+       <result property="return_date" column="RETURN_DATE"/> 
+       <result property="create_user" column="CREATE_USER"/> 
+       <result property="create_date" column="CREATE_DATE"/>
+       <result property="update_user" column="UPDATE_USER"/>
+       <result property="update_date" column="UPDATE_DATE"/>                    
+    </resultMap>
+    
+    <select id="bookSearchDetailSelect" resultMap="bookList" parameterType="com.library.bookinfo.vo.BookSearchVO">
+       <![CDATA[
+         SELECT 
+               BSEQ, 
+               BNUM, 
+               TITLE, 
+               WRITER, 
+               PUBLISHER, 
+               PUBLISH_DATE, 
+               ISBN, 
+               ISSN, 
+               TYPE, 
+               CALL_NUMBER, 
+               LOCATION, 
+               STATE,
+               IMAGE, 
+               RETURN_DATE, 
+               CREATE_USER, 
+               CREATE_DATE, 
+               UPDATE_USER, 
+               UPDATE_DATE
+          FROM LIBRARY_BOOK_INFO
+          WHERE  1=1
+      ]]>
+      <![CDATA[AND ( 1=1  ]]>     
+      <if test='searchCondition1 == "0"'>
+        <if test='searchKeyword1 != null and !searchKeyword1.equals("")'>
+           <![CDATA[ AND TITLE LIKE '%' || #{searchKeyword1} || '%' ]]>
+        </if>
+      </if>
+      <if test='searchCondition1 == "1"'>
+        <if test='searchKeyword1 != null and !searchKeyword1.equals("")'>
+           <![CDATA[ AND WRITER LIKE '%' || #{searchKeyword1} || '%' ]]>
+        </if>
+      </if>
+      <if test='searchCondition1 == "2"'>
+        <if test='searchKeyword1 != null and !searchKeyword1.equals("")'>
+           <![CDATA[ AND PUBLISHER LIKE '%' || #{searchKeyword1} || '%' ]]>
+        </if>
+      </if>           
+      <if test='andOrCondition1 == "and"'>
+         <if test='searchCondition2 == "0"'>
+            <if test='searchKeyword2 != null and !searchKeyword2.equals("")'>
+               <![CDATA[ AND TITLE LIKE '%' || #{searchKeyword2} || '%' ]]>
+            </if>
+         </if>
+         <if test='searchCondition2 == "1"'>
+            <if test='searchKeyword2 != null and !searchKeyword2.equals("")'>
+               <![CDATA[ AND WRITER LIKE '%' || #{searchKeyword2} || '%' ]]>
+            </if>
+         </if>
+         <if test='searchCondition2 == "2"'>
+            <if test='searchKeyword2 != null and !searchKeyword2.equals("")'>
+               <![CDATA[ AND PUBLISHER LIKE '%' || #{searchKeyword2} || '%' ]]>
+            </if>
+         </if>                  
+      </if>
+      <if test='andOrCondition1 == "or"'>
+         <if test='searchCondition2 == "0"'>
+            <if test='searchKeyword2 != null and !searchKeyword2.equals("")'>
+               <![CDATA[ OR TITLE LIKE '%' || #{searchKeyword2} || '%' ]]>
+            </if>
+         </if>
+         <if test='searchCondition2 == "1"'>
+            <if test='searchKeyword2 != null and !searchKeyword2.equals("")'>
+               <![CDATA[ OR WRITER LIKE '%' || #{searchKeyword2} || '%' ]]>
+            </if>
+         </if>
+         <if test='searchCondition2 == "2"'>
+            <if test='searchKeyword2 != null and !searchKeyword2.equals("")'>
+               <![CDATA[ OR PUBLISHER LIKE '%' || #{searchKeyword2} || '%' ]]>
+            </if>
+         </if>       
+      </if>
+      <if test='andOrCondition2 == "and"'>
+         <if test='searchCondition3 == "0"'>
+            <if test='searchKeyword3 != null and !searchKeyword3.equals("")'>
+               <![CDATA[ AND TITLE LIKE '%' || #{searchKeyword3} || '%' ]]>
+            </if>
+         </if>
+         <if test='searchCondition3 == "1"'>
+            <if test='searchKeyword3 != null and !searchKeyword3.equals("")'>
+               <![CDATA[ AND WRITER LIKE '%' || #{searchKeyword3} || '%' ]]>
+            </if>
+         </if>
+         <if test='searchCondition3 == "2"'>
+            <if test='searchKeyword3 != null and !searchKeyword3.equals("")'>
+               <![CDATA[ AND PUBLISHER LIKE '%' || #{searchKeyword3} || '%' ]]>
+            </if>
+         </if>                  
+      </if>
+      <if test='andOrCondition2 == "or"'>
+         <if test='searchCondition3 == "0"'>
+            <if test='searchKeyword3 != null and !searchKeyword3.equals("")'>
+               <![CDATA[ OR TITLE LIKE '%' || #{searchKeyword3} || '%' ]]>
+            </if>
+         </if>
+         <if test='searchCondition3 == "1"'>
+            <if test='searchKeyword3 != null and !searchKeyword3.equals("")'>
+               <![CDATA[ OR WRITER LIKE '%' || #{searchKeyword3} || '%' ]]>
+            </if>
+         </if>
+         <if test='searchCondition3 == "2"'>
+            <if test='searchKeyword3 != null and !searchKeyword3.equals("")'>
+               <![CDATA[ OR PUBLISHER LIKE '%' || #{searchKeyword3} || '%' ]]>
+            </if>
+         </if>       
+      </if>
+      <![CDATA[     )]]> 
+      <if test='type == "B"'>
+      <![CDATA[ AND TYPE = '도서']]>
+      </if>
+      <if test='type == "N"'>
+      <![CDATA[ AND TYPE = '비도서']]>
+      </if>
+      <if test='year1 != null and !year1.equals("")'>
+      <![CDATA[ AND PUBLISH_DATE >= TO_DATE(#{year1}||'0101', 'YYYYMMDD')]]>  
+      </if>
+      <if test='year2 != null and !year2.equals("")'>
+      <![CDATA[ AND PUBLISH_DATE <= TO_DATE(#{year2}||'1231', 'YYYYMMDD')]]>  
+      </if>                          
+    </select>
+    
+    <select id="bookSearchIntegratedSelect" resultMap="bookList" parameterType="com.library.bookinfo.vo.BookSearchVO">
+      <![CDATA[
+           SELECT 
+               BSEQ, 
+               BNUM, 
+               TITLE, 
+               WRITER, 
+               PUBLISHER, 
+               PUBLISH_DATE, 
+               ISBN, 
+               ISSN, 
+               TYPE, 
+               CALL_NUMBER, 
+               LOCATION, 
+               STATE,
+               IMAGE, 
+               RETURN_DATE, 
+               CREATE_USER, 
+               CREATE_DATE, 
+               UPDATE_USER, 
+               UPDATE_DATE
+          FROM LIBRARY_BOOK_INFO
+          WHERE TITLE LIKE '%' || #{integratedSearchKeyword} || '%'
+          OR    WRITER LIKE '%' || #{integratedSearchKeyword} || '%'
+          OR    PUBLISHER LIKE '%' || #{integratedSearchKeyword} || '%'
+      ]]>  
+    </select>
+    
+    <select id="bookDetailInfoSelect" resultMap="bookList" parameterType="com.library.bookinfo.vo.BookSearchVO">
+      <![CDATA[
+           SELECT 
+               BSEQ, 
+               BNUM, 
+               TITLE, 
+               WRITER, 
+               PUBLISHER, 
+               PUBLISH_DATE, 
+               ISBN, 
+               ISSN, 
+               TYPE, 
+               CALL_NUMBER, 
+               LOCATION, 
+               STATE, 
+               IMAGE,
+               RETURN_DATE, 
+               CREATE_USER, 
+               CREATE_DATE, 
+               UPDATE_USER, 
+               UPDATE_DATE
+          FROM LIBRARY_BOOK_INFO
+          WHERE BSEQ=#{bseq}     
+      ]]> 
+    </select>
+    
+    <insert id="bookInfoInsert" parameterType="com.library.bookinfo.vo.BookInfoVO">
+      <![CDATA[
+          INSERT INTO LIBRARY_BOOK_INFO(
+               BSEQ, 
+               BNUM, 
+               TITLE, 
+               WRITER, 
+               PUBLISHER, 
+               PUBLISH_DATE, 
+               ISBN, 
+               ISSN, 
+               TYPE, 
+               CALL_NUMBER, 
+               LOCATION, 
+               STATE,
+               IMAGE, 
+               RETURN_DATE, 
+               CREATE_USER, 
+               CREATE_DATE, 
+               UPDATE_USER, 
+               UPDATE_DATE
+          )VALUES(
+               LIBRARY_BOOK_INFO_SEQ.NEXTVAL
+       ]]>    
+       <if test='type == "도서"'>
+           <![CDATA[,'B000' || TO_CHAR(LIBRARY_BOOK_INFO_BNUM.NEXTVAL)]]>  
+       </if>   
+       <if test='type == "비도서"'>
+           <![CDATA[,'N000' || TO_CHAR(LIBRARY_BOOK_INFO_BNUM.NEXTVAL)]]>  
+       </if>
+        <![CDATA[             
+               ,#{title}
+               ,#{writer}
+               ,#{publisher}
+               ,#{publish_date}
+               ,#{isbn}
+               ,#{issn}
+               ,#{type}
+               ,#{call_number}
+               ,#{location}
+               ,'Y'
+               ,#{image}
+               ,null
+               ,#{create_user}
+               ,SYSDATE
+               ,#{update_user}
+               ,SYSDATE
+          )          
+      ]]>
+      <selectKey keyProperty="bseq" resultType="java.lang.Integer" order="AFTER">
+          SELECT LIBRARY_BOOK_INFO_SEQ.CURRVAL FROM DUAL
+      </selectKey>
+    </insert>
+    
+    <update id="bookInfoUpdate" parameterType="com.library.bookinfo.vo.BookInfoVO">
+      <![CDATA[
+          UPDATE LIBRARY_BOOK_INFO
+          SET
+            TITLE = #{title},
+            WRITER = #{writer},
+            PUBLISHER = #{publisher},
+            PUBLISH_DATE = #{publish_date},
+            ISBN = #{isbn},
+            ISSN = #{issn},
+            TYPE = #{type},
+            CALL_NUMBER = #{call_number},
+            LOCATION = #{location},
+      ]]>       
+            <if test='image != null and !image.equals("")'>
+            IMAGE = #{image},
+            </if>
+     <![CDATA[       
+            UPDATE_USER = #{update_user}, 
+            UPDATE_DATE = SYSDATE
+          WHERE BNUM = #{bnum}   
+            
+      ]]>
+    </update>
+    
+    <delete id="bookInfoDelete" parameterType="com.library.bookinfo.vo.BookInfoVO">
+         DELETE FROM LIBRARY_BOOK_INFO WHERE BSEQ=#{bseq}
+    </delete>
+    
+    <select id="bookInfoImg" parameterType="com.library.bookinfo.vo.BookInfoVO" resultType="java.lang.String">
+         SELECT IMAGE FROM LIBRARY_BOOK_INFO WHERE BSEQ=#{bseq}
+    </select>
+
+    <select id="bookStateSelect" parameterType="com.library.bookinfo.vo.BookInfoVO" resultType="java.lang.String">
+         SELECT STATE FROM LIBRARY_BOOK_INFO WHERE BNUM=#{bnum}
+    </select>
+    
+    <update id="bookStateUpdateY" parameterType="com.library.bookinfo.vo.BookInfoVO">
+         UPDATE LIBRARY_BOOK_INFO
+         SET 
+            STATE = 'Y',
+            RETURN_DATE = NULL
+         WHERE 
+            BNUM = #{bnum}
+    </update>
+    
+    <update id="bookStateUpdateN" parameterType="com.library.bookinfo.vo.BookInfoVO">
+         UPDATE LIBRARY_BOOK_INFO
+         SET 
+            STATE = 'N',
+            RETURN_DATE = SYSDATE + 14
+         WHERE 
+            BNUM = #{bnum}
+    </update>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.bookhistory.dao.BookHistoryMapper">
+    <resultMap id="bookHistoryList" type="com.library.bookhistory.vo.BookHistoryVO">
+       <result property="title" column="TITLE"/>
+       <result property="writer" column="WRITER"/>
+       <result property="out_day" column="OUT_DAY"/>
+       <result property="will_day" column="WILL_DAY"/>
+       <result property="in_day" column="IN_DAY"/>
+    </resultMap>
+
+    
+    <select id="historyCheckCnt" parameterType="hashMap" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM LIBRARY_BOOK_HISTORY WHERE BNUM=#{bnum} AND ID = #{id} AND IN_DAY IS NULL
+    </select>
+    
+    <select id="penaltySelect" parameterType="hashMap" resultType="java.lang.Integer">
+        SELECT TRUNC(SYSDATE - WILL_DAY) FROM LIBRARY_BOOK_HISTORY WHERE BNUM=#{bnum} AND ID = #{id} AND IN_DAY IS NULL
+    </select>
+    
+    <update id="returnUpdate" parameterType="hashMap">
+        UPDATE LIBRARY_BOOK_HISTORY
+        SET 
+          IN_DAY = SYSDATE
+        WHERE BNUM=#{bnum} AND ID = #{id} AND IN_DAY IS NULL
+    </update>
+    
+    <insert id="loanInsert" parameterType="hashMap">
+        INSERT INTO  LIBRARY_BOOK_HISTORY(
+          HSEQ,
+          BNUM,
+          ID,
+          OUT_DAY,
+          WILL_DAY,
+          IN_DAY,
+          CREATE_USER,
+          CREATE_DATE,
+          UPDATE_USER,
+          UPDATE_DATE
+        )VALUES(
+          LIBRARY_BOOK_HISTORY_SEQ.NEXTVAL,
+          #{bnum},
+          #{id},
+          SYSDATE,
+          SYSDATE + 14,
+          NULL,
+          #{id},
+          SYSDATE,
+          #{id},
+          SYSDATE
+        )   
+    </insert>
+    
+    <select id="bookHistorySelect" parameterType="String" resultMap="bookHistoryList">
+        SELECT 
+            (SELECT TITLE FROM LIBRARY_BOOK_INFO WHERE BNUM = A.BNUM) AS TITLE,
+            (SELECT WRITER FROM LIBRARY_BOOK_INFO WHERE BNUM = A.BNUM) AS WRITER,
+            OUT_DAY, 
+            WILL_DAY, 
+            IN_DAY 
+        FROM LIBRARY_BOOK_HISTORY A 
+        WHERE ID = #{id}
+    </select>
+</mapper>
